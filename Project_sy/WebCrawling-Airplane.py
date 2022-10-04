@@ -122,6 +122,74 @@ soup = BeautifulSoup(html, "html.parser") # html.parser
 #     for ft in FT:
 #         print(ft)
 
+<<<<<<< HEAD
+# filename = "항공권.csv"
+# f = open(filename, "w", encoding="utf-8-sig", newline="") # 무의미하게 중간 중간 줄바꿈을 해버림. 그래서 newline=""을 해주면 이는 해결된다.
+# writer = csv.writer(f) 
+
+# title = "도착 시간  출발 시간".split("\t")
+# print(type(title))
+# writer.writerow(title)
+
+# data_rows =  soup.find("ul", attrs={"class":"flight__items"}).find("li").find_all("div")
+# for row in data_rows:
+#     columns = row.find_all("span")
+#     if len(columns) <= 1: # 의미 없는 데이터는 skip
+#         continue 
+#     data = [column.get_text().strip() for column in columns] # strip()를 통해 불필요한 공백을 제거
+#     print(data)
+#     writer.writerow(data) # 데이터는 리스트 형태로 넣어줘야함.
+
+
+date = 14
+transfer_list = []
+data_dic = {'date' : [],
+            'time1' : [],
+            'time2' : [],
+            'duration' : [],
+            'transfer' : [],
+            'flight_number1' : [],
+            'flight_number2' : [],
+            'price' : []}
+# features = ['date', 'time1', 'time2', 'duration', 'transfer', 'flight_number1', 'flight_number2', 'price']
+
+
+
+if browser.current_url == "https://www.koreanair.com/booking/select-flight/departure":
+    flight_date = date
+    flight_time = browser.find_elements(By.CLASS_NAME, "flight__time")
+    flight_duration = browser.find_elements(By.CLASS_NAME, "flight__duration")
+    flight_transfer = browser.find_elements(By.CLASS_NAME, "flight__stop")
+    flight_number = browser.find_elements(By.CLASS_NAME, "flight__number")
+    flight_fares = browser.find_elements(By.CLASS_NAME, "flight__fare")
+    
+
+    for i in range(len(flight_fares)):
+        data_dic['date'].append(flight_date)
+        data_dic['duration'].append(flight_duration[i].text)
+        data_dic['transfer'].append(flight_transfer[i].text)
+        data_dic['price'].append(flight_fares[i].text)
+    
+    for i in range(0,len(flight_time), 2):
+        data_dic['time1'].append(flight_time[i].text)
+        data_dic['time2'].append(flight_time[i+1].text)
+        data_dic['flight_number1'].append(flight_number[i].text)
+        data_dic['flight_number2'].append(flight_number[i+1].text)
+
+i = 1
+while i != len(flight_fares)+1:
+    try:
+        flight_transfer = browser.find_element(By.XPATH, "/html/body/app-root/div/ke-selection-flight/ke-basic-layout/div[1]/div/div[2]/div[2]/ke-air-offer-bounds-cont/ke-air-offer-bounds-pres/div/div[2]/ul/li[{}]/div[1]/a/div[1]/div/div[3]/div[1]/ke-flight-desc-item/span[3]".format(i))
+        # print(flight_transfer) 
+        transfer_list.append("O")
+        i += 1 
+    except:
+        transfer_list.append("X")
+        i += 1
+print(transfer_list)
+
+print(data_dic)
+=======
 filename = "항공권.csv"
 f = open(filename, "w", encoding="utf-8-sig", newline="") # 무의미하게 중간 중간 줄바꿈을 해버림. 그래서 newline=""을 해주면 이는 해결된다.
 writer = csv.writer(f) 
@@ -171,6 +239,7 @@ for row in data_rows:
 #         data_dic['flight_number2'].append(flight_number[i+1].text)
 
 # print(data_dic)
+>>>>>>> 85cb9cefa026dc990cf84fc1700b1ab0ca91288d
 
 # import pandas as pd
 # data_df = pd.DataFrame(data_dic)
